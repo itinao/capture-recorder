@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>Desktop Capture Share</title>
+    <script src="../js/popup.min.js"></script>
+    <link rel="stylesheet" href="../css/popup.min.css" type="text/css">
+  </head>
+  <body>
+
+    <div class="app-wrapper">
+
+      <div class="app-title">
+        <div class="loading-area fadeout">
+          <img src="../../img/reload.png" class="loading">
+        </div>
+        <div class="fadein">Desktop Capture Recorder</div>
+      </div>
+    
+      <div class="app-content">
+
+        <div style="
+            border: 1px solid;
+            -webkit-border-radius: 10px;
+            width: 80px;
+            font-size: 20px;
+            box-shadow: 3px 3px;
+            background-color: #FFF;
+            color: #000;
+        ">
+          <i class="fa fa-dot-circle-o"></i>REC
+        </div>
+
+        <div style="
+            border: 1px solid;
+            -webkit-border-radius: 10px;
+            width: 80px;
+            font-size: 20px;
+            box-shadow: 3px 3px;
+            background-color: #FFF;
+            color: #000;
+        ">
+          <i class="fa fa-download"></i>DOWNLOAD
+        </div>
+
+        <div style="
+            border: 1px solid;
+            -webkit-border-radius: 10px;
+            width: 80px;
+            font-size: 20px;
+            box-shadow: 3px 3px;
+            background-color: #FFF;
+            color: #000;
+        ">
+          <i class="fa fa-stop"></i>STOP
+        </div>
+
+        <div style="
+            border: 1px solid;
+            -webkit-border-radius: 10px;
+            width: 80px;
+            font-size: 20px;
+            box-shadow: 3px 3px;
+            background-color: #FFF;
+            color: #000;
+        ">
+          <i class="fa fa-retweet"></i>PREVIEW
+        </div>
+
+        <div style="
+            border: 1px solid;
+            -webkit-border-radius: 10px;
+            width: 80px;
+            font-size: 20px;
+            box-shadow: 3px 3px;
+            background-color: #FFF;
+            color: #000;
+        ">
+          <i class="fa fa-trash"></i>TRASH
+        </div>
+
+
+
+
+        <!-- ko if: isSupport() -->
+          <div class="description" data-bind="html: shareDescription()"></div>
+          <div class="share-url" data-bind="text: shareUrl()"></div>
+          <div class="share-button">
+            <span class="share-button-desc">画面共有ON/OFF</span>
+            <input type="checkbox" id="m-switch" data-bind="event: {change: changeCaptureStatus}, attr: {checked: captureOnOff()}">
+            <label for="m-switch" class="m-switch-label"></label>
+          </div>
+          <div class="home-link">
+            <a href="http://screen-share.itinao.asia/" target="_blank">Desktop Capture Shareとは</a>
+          </div>
+        <!-- /ko -->
+
+        <!-- ko ifnot: isSupport() -->
+          <div class="attention">※ Google Chrom ver.35以上がサポート対象です</div>
+        <!-- /ko -->
+
+      </div>
+
+      <!-- ko if: shareUrl() !== readyShareUrl -->
+        <div data-bind="click: copyUrl, css: {'on': nowCopy()}" class="app-copy-button"><img src="../../img/copy.png"></div>
+      <!-- /ko -->
+
+    </div>
+
+    <!-- ko foreach: notifications -->
+      <div class="clip-notification" data-bind="text: $data.text"></div>
+    <!-- /ko -->
+
+    <script src="https://apis.google.com/js/client.js?onload=load"></script>
+
+  </body>
+</html>
