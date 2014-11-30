@@ -2,7 +2,7 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8">
-    <title>Desktop Capture Share</title>
+    <title>Desktop Capture Recorder</title>
     <script src="../js/popup.min.js"></script>
     <link rel="stylesheet" href="../css/popup.min.css" type="text/css">
   </head>
@@ -19,71 +19,49 @@
     
       <div class="app-content">
 
-        <div style="
-            border: 1px solid;
-            -webkit-border-radius: 10px;
-            width: 80px;
-            font-size: 20px;
-            box-shadow: 3px 3px;
-            background-color: #FFF;
-            color: #000;
-        ">
-          <i class="fa fa-dot-circle-o"></i>REC
-        </div>
-
-        <div style="
-            border: 1px solid;
-            -webkit-border-radius: 10px;
-            width: 80px;
-            font-size: 20px;
-            box-shadow: 3px 3px;
-            background-color: #FFF;
-            color: #000;
-        ">
-          <i class="fa fa-download"></i>DOWNLOAD
-        </div>
-
-        <div style="
-            border: 1px solid;
-            -webkit-border-radius: 10px;
-            width: 80px;
-            font-size: 20px;
-            box-shadow: 3px 3px;
-            background-color: #FFF;
-            color: #000;
-        ">
-          <i class="fa fa-stop"></i>STOP
-        </div>
-
-        <div style="
-            border: 1px solid;
-            -webkit-border-radius: 10px;
-            width: 80px;
-            font-size: 20px;
-            box-shadow: 3px 3px;
-            background-color: #FFF;
-            color: #000;
-        ">
-          <i class="fa fa-retweet"></i>PREVIEW
-        </div>
-
-        <div style="
-            border: 1px solid;
-            -webkit-border-radius: 10px;
-            width: 80px;
-            font-size: 20px;
-            box-shadow: 3px 3px;
-            background-color: #FFF;
-            color: #000;
-        ">
-          <i class="fa fa-trash"></i>TRASH
-        </div>
-
-
-
-
         <!-- ko if: isSupport() -->
           <div class="description" data-bind="html: shareDescription()"></div>
+
+<style>
+ul {
+display: flex;
+font-size: 12px;
+margin: 0;
+padding: 0;
+-webkit-user-select: none;
+}
+li {
+list-style-type: none;
+border-radius: 5px;
+box-shadow: 3px 3px #000;
+background-color: #9E0000;
+color: #fff;
+padding: 3px;
+margin: 5px;
+cursor: pointer;
+min-width: 50px;
+flex: 1;
+}
+li:hover {
+opacity: 0.7;
+}
+li.disable {
+  background-color: #666;
+  cursor: auto;
+}
+li.disable:hover {
+  opacity: 1;
+}
+</style>
+          <ul>
+            <li data-bind="css: {'disable': !buttonStatus.rec()}"><i class="fa fa-dot-circle-o"></i><div>REC</div></li>
+            <li data-bind="css: {'disable': !buttonStatus.stop()}"><i class="fa fa-stop"></i><div>STOP</div></li>
+            <li data-bind="css: {'disable': !buttonStatus.preview()}"><i class="fa fa-retweet"></i><div>PREVIEW</div></li>
+            <li data-bind="css: {'disable': !buttonStatus.trash()}"><i class="fa fa-trash"></i><div>TRASH</div></li>
+            <li data-bind="css: {'disable': !buttonStatus.save()}"><i class="fa fa-download"></i><div>SAVE</div></li>
+          </ul>
+
+<!--
           <div class="share-url" data-bind="text: shareUrl()"></div>
           <div class="share-button">
             <span class="share-button-desc">画面共有ON/OFF</span>
@@ -93,6 +71,7 @@
           <div class="home-link">
             <a href="http://screen-share.itinao.asia/" target="_blank">Desktop Capture Shareとは</a>
           </div>
+-->
         <!-- /ko -->
 
         <!-- ko ifnot: isSupport() -->

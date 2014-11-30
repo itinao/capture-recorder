@@ -1,8 +1,8 @@
 /**
- * Desctop Capture Share VIEW MODEL
+ * Desctop Capture Recorder VIEW MODEL
  */
-var desktopCaptureShareInstance = null;
-var DesktopCaptureShareVM = Class.extend({
+var desktopCaptureRecorderInstance = null;
+var DesktopCaptureRecorderVM = Class.extend({
   peerConfig: {
     host: 'screen-share-signaling.itinao.asia',
     port: 8080,
@@ -11,9 +11,8 @@ var DesktopCaptureShareVM = Class.extend({
     shareUrl: 'http://screen-share.itinao.asia/share.html'
   },
   bg: chrome.extension.getBackgroundPage(),
-//  qrBaseUrl: 'https://chart.googleapis.com/chart?cht=qr&chs=200x200&chl=',
   descriptions: {
-    ready: '画面共有を開始するとURLが生成されます',
+    ready: '「REC」ボタンを押して<br>録画対象の選択をしてください',
     work: '共有URLを生成しました<br>{{$1}}人が接続中です'
   },
   notificationText: {
@@ -21,6 +20,14 @@ var DesktopCaptureShareVM = Class.extend({
   },
   readyShareUrl: 'URL',
   supportVersion: 35,
+
+  buttonStatus: {
+    rec: null,
+    stop: null,
+    preview: null,
+    trash: null,
+    save: null
+  },
 
   captureOnOff: null,
   shareUrl: null,
@@ -34,6 +41,12 @@ var DesktopCaptureShareVM = Class.extend({
     this.shareDescription = ko.observable();
     this.nowCopy = ko.observable();
     this.notifications = ko.observableArray();
+
+    this.buttonStatus.rec = ko.observable(true);
+    this.buttonStatus.stop = ko.observable(false);
+    this.buttonStatus.preview = ko.observable(false);
+    this.buttonStatus.trash = ko.observable(false);
+    this.buttonStatus.save = ko.observable(false);
 
     if (this.isConnected()) {
       this.initConnected();
@@ -138,12 +151,12 @@ var DesktopCaptureShareVM = Class.extend({
 
 
 document.addEventListener("DOMContentLoaded", function() {
-  desktopCaptureShareInstance = new DesktopCaptureShareVM;
-  ko.applyBindings(desktopCaptureShareInstance);
+  desktopCaptureRecorderInstance = new DesktopCaptureRecorderVM;
+  ko.applyBindings(desktopCaptureRecorderInstance);
 }, false);
 
 var load = function() {
-  if (desktopCaptureShareInstance.isConnected()) {
-    desktopCaptureShareInstance.createShortUrl();
+  if (desktopCaptureRecorderInstance.isConnected()) {
+    desktopCaptureRecorderInstance.createShortUrl();
   }
 };
