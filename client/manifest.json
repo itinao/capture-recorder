@@ -10,7 +10,7 @@
     "default_icon": "img/icon.png"
   },
   "background": {
-    "scripts":["build/js/background.min.js"]
+    "scripts":["build/js/background.js"]
   },
   "permissions": [
     "notifications",

@@ -16,14 +16,14 @@ var DesktopCaptureRecorderVM = Class.extend({
     work: '共有URLを生成しました<br>{{$1}}人が接続中です'
   },
   notificationText: {
-    clip: 'クリップボードにコピーしました'
+    startRec: '録画を開始しました'
   },
   readyShareUrl: 'URL',
   supportVersion: 35,
 
   buttonStatus: {
-    rec: null,
-    stop: null,
+    startRec: null,
+    stopRec: null,
     preview: null,
     trash: null,
     save: null
@@ -42,11 +42,13 @@ var DesktopCaptureRecorderVM = Class.extend({
     this.nowCopy = ko.observable();
     this.notifications = ko.observableArray();
 
-    this.buttonStatus.rec = ko.observable(true);
-    this.buttonStatus.stop = ko.observable(false);
+    this.buttonStatus.startRec = ko.observable(true);
+    this.buttonStatus.stopRec = ko.observable(false);
     this.buttonStatus.preview = ko.observable(false);
     this.buttonStatus.trash = ko.observable(false);
     this.buttonStatus.save = ko.observable(false);
+
+    this.updateButtonState(this.bg.captureRecorder && this.bg.captureRecorder.recorderStatus);
 
     if (this.isConnected()) {
       this.initConnected();
@@ -55,44 +57,103 @@ var DesktopCaptureRecorderVM = Class.extend({
     }
   },
 
+  startRec: function() {
+    this.bg.captureRecorder = new this.bg.CaptureRecorder();
+
+    this.updateButtonState(this.bg.captureRecorder.recorderStatusList.now);
+    this.createNotification(this.notificationText.startRec);
+    this.bg.captureRecorder.startRecording(function() {});
+console.log("start");
+  },
+  stopRec: function() {
+    this.updateButtonState(this.bg.captureRecorder.recorderStatusList.ended);
+    // 録画停止処理
+    this.bg.captureRecorder.stopRecording(function() {});
+console.log("stop");
+  },
+  preview: function() {
+    window.open(this.bg.captureRecorder.previewVideoUrl, "_blank", "width=960, height=640, menubar=no, status=no, scrollbars=no");
+console.log("preview");
+  },
+  trash: function() {
+    this.updateButtonState(this.bg.captureRecorder.recorderStatusList.ready);
+    // 初期化処理
+    this.bg.location.reload();
+console.log("trash");
+  },
+  save: function() {
+    var a = document.createElement('A');
+    a.download = 'desktop-capture-recorder-' + parseInt((new Date) / 1000) + '.webm';
+    a.href = this.bg.captureRecorder.previewVideoUrl;
+    a.click();
+console.log("save");
+  },
+
+  updateButtonState: function(buttonStatus) {
+    if (!buttonStatus) {
+      this.buttonStatus.startRec(true);
+      this.buttonStatus.stopRec(false);
+      this.buttonStatus.preview(false);
+      this.buttonStatus.trash(false);
+      this.buttonStatus.save(false);
+      return;
+    }
+
+    switch (buttonStatus){
+      case this.bg.captureRecorder.recorderStatusList.ready:
+        this.buttonStatus.startRec(true);
+        this.buttonStatus.stopRec(false);
+        this.buttonStatus.preview(false);
+        this.buttonStatus.trash(false);
+        this.buttonStatus.save(false);
+        break;
+      case this.bg.captureRecorder.recorderStatusList.now:
+        this.buttonStatus.startRec(false);
+        this.buttonStatus.stopRec(true);
+        this.buttonStatus.preview(false);
+        this.buttonStatus.trash(false);
+        this.buttonStatus.save(false);
+        break;
+      case this.bg.captureRecorder.recorderStatusList.ended:
+        this.buttonStatus.startRec(false);
+        this.buttonStatus.stopRec(false);
+        this.buttonStatus.preview(true);
+        this.buttonStatus.trash(true);
+        this.buttonStatus.save(true);
+        break;
+    }
+  },
+
   isConnected: function() {
-    return this.bg.appPeer && this.bg.appPeer.stream && !this.bg.appPeer.stream.ended;
+    return this.bg.captureRecorder && this.bg.captureRecorder.stream && !this.bg.captureRecorder.stream.ended;
   },
 
   initConnected: function() {
-    var conLen = Object.keys(this.bg.appPeer.connections).length;
+/*
+    var conLen = Object.keys(this.bg.captureRecorder.connections).length;
     this.captureOnOff(true);
-    this.shareDescription(this.descriptions.work.replace('{{$1}}', conLen));
+*/
+//    this.shareDescription(this.descriptions.work.replace('{{$1}}', conLen));
   },
 
   initUnConnected: function() {
+/*
     this.captureOnOff(false);
     this.shareUrl(this.readyShareUrl);
+*/
     this.shareDescription(this.descriptions.ready);
   },
 
   createShortUrl: function() {
-    // 短縮URLを取得する
-    gapi.client.load('urlshortener', 'v1', function() {
-      var req = gapi.client.urlshortener.url.insert({
-        resource: {'longUrl': this.bg.appPeer.shareUrl}
-      });
-      req.execute(function(data){
-        if (data.error) {
-          this.shareUrl(this.bg.appPeer.shareUrl);
-          return;
-        }
-        this.shareUrl(data.id);
-      }.bind(this));
-    }.bind(this));
   },
 
   changeCaptureStatus: function(self, event) {
+/*
     if (event.currentTarget.checked) {
       // ONに変更時
       this.createPeerInstance(function() {
         setTimeout(function() {// SWITCHのアニメーションを見せてからダイアログ出す
-          this.bg.appPeer.startCapture();
+          this.bg.captureRecorder.startCapture();
           window.close();// Windowsではpopupが閉じないので明示的に閉じる
         }.bind(this), 500);
       }.bind(this));
@@ -102,10 +163,11 @@ var DesktopCaptureRecorderVM = Class.extend({
       this.shareUrl(this.readyShareUrl);
       this.shareDescription(this.descriptions.ready);
     }
+*/
   },
 
   createPeerInstance: function(openCallback) {
-    this.bg.appPeer = new this.bg.AppPeer({
+    this.bg.captureRecorder = new this.bg.CaptureRecorder({
       host: this.peerConfig.host,
       port: this.peerConfig.port,
       path: this.peerConfig.path,
@@ -115,28 +177,9 @@ var DesktopCaptureRecorderVM = Class.extend({
     });
   },
 
-  saveToClipboard: function(value) {
-    var textArea = document.createElement("textarea");
-    textArea.style.opacity = 0;
-    document.body.appendChild(textArea);
-    textArea.value = value;
-    textArea.select();
-    document.execCommand("copy");
-    document.body.removeChild(textArea);
-  },
-
-  copyUrl: function() {
-    this.nowCopy(true);
-    this.saveToClipboard(this.shareUrl());
-    setTimeout(function() {
-      this.nowCopy(false);
-    }.bind(this), 200);
-    this.createNotification();
-  },
-
-  createNotification: function() {
+  createNotification: function(text) {
     this.notifications.removeAll();// 溜まっちゃうから消しとく
-    this.notifications.push({text: this.notificationText.clip});
+    this.notifications.push({text: text});
   },
 
   isSupport: function() {
@@ -149,14 +192,7 @@ var DesktopCaptureRecorderVM = Class.extend({
   }
 });
 
-
 document.addEventListener("DOMContentLoaded", function() {
   desktopCaptureRecorderInstance = new DesktopCaptureRecorderVM;
   ko.applyBindings(desktopCaptureRecorderInstance);
 }, false);
-
-var load = function() {
-  if (desktopCaptureRecorderInstance.isConnected()) {
-    desktopCaptureRecorderInstance.createShortUrl();
-  }
-};

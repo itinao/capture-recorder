@@ -1,2 +1,2 @@
-// PeerJSのインスタンス生成用変数
-var appPeer = null;
+// CaptureRecorderのインスタンス生成用変数
+var captureRecorder = null;
