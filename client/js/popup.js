@@ -18,6 +18,12 @@ var DesktopCaptureRecorderVM = Class.extend({
   notificationText: {
     startRec: '録画を開始しました'
   },
+  iconPath: {
+    start: '/img/icon48_start.png',
+    stop: '/img/icon48_stop.png',
+    rec: '/img/icon48_rec.png',
+    default: '/img/icon48.png'
+  },
   readyShareUrl: 'URL',
   supportVersion: 35,
 
@@ -62,7 +68,9 @@ var DesktopCaptureRecorderVM = Class.extend({
 
     this.updateButtonState(this.bg.captureRecorder.recorderStatusList.now);
     this.createNotification(this.notificationText.startRec);
-    this.bg.captureRecorder.startRecording(function() {});
+    this.bg.captureRecorder.startRecording(function() {
+//      chrome.browserAction.setIcon({path: this.iconPath.stop});
+    }.bind(this));
 console.log("start");
   },
   stopRec: function() {
@@ -196,3 +204,8 @@ document.addEventListener("DOMContentLoaded", function() {
   desktopCaptureRecorderInstance = new DesktopCaptureRecorderVM;
   ko.applyBindings(desktopCaptureRecorderInstance);
 }, false);
+
+chrome.browserAction.onClicked.addListener(function() {
+console.log("TEST");
+alert("test");
+})
