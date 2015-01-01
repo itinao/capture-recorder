@@ -20,7 +20,7 @@
       <div class="app-content">
 
         <!-- ko if: isSupport() -->
-          <div class="description" data-bind="html: shareDescription()"></div>
+          <div class="description">録画したから保存してちょ</div>
 
 <style>
 ul {
@@ -54,24 +54,11 @@ li.disable:hover {
 }
 </style>
           <ul>
-            <li data-bind="css: {'disable': !buttonStatus.startRec()}, click: startRec"><i class="fa fa-dot-circle-o"></i><div>REC</div></li>
-            <li data-bind="css: {'disable': !buttonStatus.stopRec()}, click: stopRec"><i class="fa fa-stop"></i><div>STOP</div></li>
+            <li data-bind="css: {'disable': !buttonStatus.save()}, click: save"><i class="fa fa-download"></i><div>SAVE</div></li>
             <li data-bind="css: {'disable': !buttonStatus.preview()}, click: preview"><i class="fa fa-retweet"></i><div>PREVIEW</div></li>
             <li data-bind="css: {'disable': !buttonStatus.trash()}, click: trash"><i class="fa fa-trash"></i><div>TRASH</div></li>
-            <li data-bind="css: {'disable': !buttonStatus.save()}, click: save"><i class="fa fa-download"></i><div>SAVE</div></li>
           </ul>
 
-<!--
-          <div class="share-url" data-bind="text: shareUrl()"></div>
-          <div class="share-button">
-            <span class="share-button-desc">画面共有ON/OFF</span>
-            <input type="checkbox" id="m-switch" data-bind="event: {change: changeCaptureStatus}, attr: {checked: captureOnOff()}">
-            <label for="m-switch" class="m-switch-label"></label>
-          </div>
-          <div class="home-link">
-            <a href="http://screen-share.itinao.asia/" target="_blank">Desktop Capture Shareとは</a>
-          </div>
--->
         <!-- /ko -->
 
         <!-- ko ifnot: isSupport() -->

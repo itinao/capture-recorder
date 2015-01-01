@@ -52,7 +52,6 @@ var CaptureRecorder = Class.extend({
                  height: 960
               }
             });
-            this.createNotification({title: '共有が完了しました', message: '拡張機能からURLを確認してください'});
             callback && callback();
           }.bind(this),
           function(error) {
