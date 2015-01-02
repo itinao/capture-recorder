@@ -12,7 +12,7 @@ var CaptureRecorder = Class.extend({
   },
   recorderStatus: null,
   startTime: null,
-  recTimeLimit: 5,
+  recTimeLimit: 60,
   isStopButton: false,
 
   init: function(option) {
