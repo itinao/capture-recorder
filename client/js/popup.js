@@ -37,14 +37,18 @@ var DesktopCaptureRecorderVM = Class.extend({
   startRec: function() {
     // 録画開始処理
     this.bg.captureRecorder.createNotification({title: '録画を開始します', message: '録画する画面を選択してください'});
-    this.bg.captureRecorder.startRecording(function() {
-      this.bg.chrome.browserAction.setIcon({path: this.iconPath.stop});
-      this.bg.captureRecorder.createNotification({title: '録画を開始しました', message: '録画可能な時間は5分までです'});
-    }.bind(this));
+    this.bg.captureRecorder.startRecording(
+      function() {
+        this.bg.chrome.browserAction.setIcon({path: this.iconPath.stop});
+        this.bg.captureRecorder.createNotification({title: '録画を開始しました', message: '60秒経過すると自動的に録画停止します'});
+      }.bind(this),
+      this.stopRec.bind(this)
+    );
   },
 
   stopRec: function() {
     // 録画停止処理
+    this.bg.captureRecorder.isStopButton = true;
     this.bg.captureRecorder.createNotification({title: '録画を停止します', message: '停止処理を開始しました'});
     this.bg.captureRecorder.stopRecording(function() {
       this.bg.chrome.browserAction.setIcon({path: this.iconPath.default});

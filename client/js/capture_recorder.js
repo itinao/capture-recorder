@@ -11,13 +11,16 @@ var CaptureRecorder = Class.extend({
     ended: 2
   },
   recorderStatus: null,
+  startTime: null,
+  recTimeLimit: 5,
+  isStopButton: false,
 
   init: function(option) {
     this.recorderStatus = this.recorderStatusList.ready;
   },
 
   // キャプチャの共有を開始する
-  startCapture: function(callback) {
+  startCapture: function(callback, endCallback) {
     chrome.desktopCapture.chooseDesktopMedia(
       ["screen", "window"] , //ウィンドウとデスクトップどちらも
       function(streamId) {
@@ -52,6 +55,9 @@ var CaptureRecorder = Class.extend({
                  height: 960
               }
             });
+
+            this.startTimer(endCallback);
+
             callback && callback();
           }.bind(this),
           function(error) {
@@ -60,6 +66,27 @@ var CaptureRecorder = Class.extend({
         );
       }.bind(this)
     );
+  },
+
+  // start timer
+  startTimer: function(callback) {
+    this.startTime = new Date / 1000;// スタート時間
+    setTimeout(this.checkTimer.bind(this, callback), 1000);
+  },
+
+  // check timer
+  checkTimer: function(callback) {
+    if (this.isStopButton) {
+      return;
+    }
+
+    var recTime = (new Date / 1000) - this.startTime;
+    if (this.recTimeLimit < recTime) {
+      callback && callback();
+      return;
+    }
+
+    setTimeout(this.checkTimer.bind(this, callback), 1000);
   },
 
   // Desctop通知
@@ -77,12 +104,12 @@ var CaptureRecorder = Class.extend({
   },
 
   // 録画スタート
-  startRecording: function(callback) {
+  startRecording: function(callback, endCallback) {
     this.startCapture(function() {
         this.recordRtc.startRecording();
         this.recorderStatus = this.recorderStatusList.now;
         callback && callback();
-    }.bind(this));
+    }.bind(this), endCallback);
   },
 
   // 録画ストップ
