@@ -10,19 +10,10 @@ var DesktopCaptureRecorderVM = Class.extend({
     default: '/img/icon48.png'
   },
   supportVersion: 35,
-  buttonStatus: {
-    preview: null,
-    trash: null,
-    save: null
-  },
   notifications: null,
   
   init: function() {
     this.notifications = ko.observableArray();
-    this.buttonStatus.preview = ko.observable(false);
-    this.buttonStatus.trash = ko.observable(false);
-    this.buttonStatus.save = ko.observable(false);
-
     if (!this.bg.captureRecorder) {
       this.bg.captureRecorder = new this.bg.CaptureRecorder();
     }
@@ -69,9 +60,7 @@ var DesktopCaptureRecorderVM = Class.extend({
   },
 
   save: function() {
-    //var subwindow = window.open(null, "_blank", "width=1, height=1, menubar=no, status=no, scrollbars=no");
-    //var a = subwindow.document.createElement('A');
-    var a = document.createElement('A');
+    var a = this.bg.document.createElement('A');
     a.download = 'desktop-capture-recorder-' + parseInt((new Date) / 1000) + '.webm';
     a.href = this.bg.captureRecorder.previewVideoUrl;
     a.click();
@@ -95,9 +84,7 @@ var DesktopCaptureRecorderVM = Class.extend({
 
       // 録画終了状態
       case this.bg.captureRecorder.recorderStatusList.ended:
-        this.buttonStatus.preview(true);
-        this.buttonStatus.trash(true);
-        this.buttonStatus.save(true);
+        // nop
         break;
     }
   },
