@@ -12,8 +12,8 @@ var CaptureRecorder = Class.extend({
   },
   recorderStatus: null,
   startTime: null,
-  recTimeLimit: 60,
-  isStopButton: false,
+  recTimeLimit: 60,// ここで指定してある秒数で強制的に録画をとめるよ
+  isStopStatus: false,
 
   init: function(option) {
     this.recorderStatus = this.recorderStatusList.ready;
@@ -35,30 +35,32 @@ var CaptureRecorder = Class.extend({
               mandatory: {
                 chromeMediaSource: 'desktop',
                 chromeMediaSourceId: streamId,
-                minWidth: 10,
-                minHeight: 10,
-                maxWidth: 1920,
-                maxHeight: 1080
+                minWidth: 320,
+                minHeight: 240,
+                maxWidth: 1280,
+                maxHeight: 960
               }
             }
           },
           function(stream) {
             this.stream = stream;
-            this.recordRtc = RecordRTC(stream, {
-              type: 'video',
-              video: {
-                 width: 1280,
-                 height: 960
-              },
-              canvas: {
-                 width: 1280,
-                 height: 960
-              }
-            });
 
-            this.startTimer(endCallback);
+            this.getVideoSize(stream, function(videoWidth, videoHeight) {
+              this.recordRtc = RecordRTC(stream, {
+                type: 'video',
+                video: {
+                   width: videoWidth,
+                   height: videoHeight
+                },
+                canvas: {
+                   width: videoWidth,
+                   height: videoHeight
+                }
+              });
+              this.startTimer(endCallback);
+              callback && callback();
+            }.bind(this));
 
-            callback && callback();
           }.bind(this),
           function(error) {
             console.log(error);
@@ -66,6 +68,17 @@ var CaptureRecorder = Class.extend({
         );
       }.bind(this)
     );
+  },
+
+  // get video size
+  getVideoSize: function(stream, callback) {
+    var video = document.createElement("VIDEO");
+    video.src = window.URL.createObjectURL(stream);
+    video.addEventListener('canplay', function() {
+      var videoWidth = video.videoWidth;
+      var videoHeight = video.videoHeight;
+      callback && callback(videoWidth, videoHeight);
+    });
   },
 
   // start timer
@@ -76,7 +89,7 @@ var CaptureRecorder = Class.extend({
 
   // check timer
   checkTimer: function(callback) {
-    if (this.isStopButton) {
+    if (this.isStopStatus) {
       return;
     }
 

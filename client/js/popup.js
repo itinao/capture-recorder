@@ -39,7 +39,7 @@ var DesktopCaptureRecorderVM = Class.extend({
 
   stopRec: function() {
     // 録画停止処理
-    this.bg.captureRecorder.isStopButton = true;
+    this.bg.captureRecorder.isStopStatus = true;
     this.bg.captureRecorder.createNotification({title: '録画を停止します', message: '停止処理を開始しました'});
     this.bg.captureRecorder.stopRecording(function() {
       this.bg.chrome.browserAction.setIcon({path: this.iconPath.default});
