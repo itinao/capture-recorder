@@ -31,7 +31,7 @@ var DesktopCaptureRecorderVM = Class.extend({
     this.bg.captureRecorder.startRecording(
       function() {
         this.bg.chrome.browserAction.setIcon({path: this.iconPath.stop});
-        this.bg.captureRecorder.createNotification({title: '録画を開始しました', message: '60秒経過すると自動的に録画停止します'});
+        this.bg.captureRecorder.createNotification({title: '録画を開始しました', message: '10分を経過すると自動的に録画停止します'});
       }.bind(this),
       this.stopRec.bind(this)
     );

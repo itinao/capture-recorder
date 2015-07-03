@@ -12,7 +12,7 @@ var CaptureRecorder = Class.extend({
   },
   recorderStatus: null,
   startTime: null,
-  recTimeLimit: 60,// ここで指定してある秒数で強制的に録画をとめるよ
+  recTimeLimit: 600,// ここで指定してある秒数で強制的に録画をとめるよ
   isStopStatus: false,
 
   init: function(option) {
