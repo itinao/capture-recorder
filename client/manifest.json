@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Desktop Capture Recorder",
   "short_name": "CR",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Desktop Capture Recorderは、デスクトップ画面をキャプチャして動画保存まで出来るGoogle Chrome拡張機能です。",
   "content_security_policy": "script-src 'self' https://apis.google.com/ 'unsafe-eval'; object-src 'self'",
   "browser_action": {
