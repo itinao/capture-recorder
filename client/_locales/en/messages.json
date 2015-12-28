@@ -1,0 +1,11 @@
+{
+  "appName": {
+    "message": "Desktop Capture Recorder"
+  },
+  "appDesc": {
+    "message": "Capture desktop and Save it."
+  },
+  "defaulttitle":{
+    "message": "Desktop Capture Recorder"
+  }
+}

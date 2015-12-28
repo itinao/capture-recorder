@@ -1,0 +1,11 @@
+{
+  "appName": {
+    "message": "桌面录像"
+  },
+  "appDesc": {
+    "message": "能捕获桌面，并保存。"
+  },
+  "defaulttitle":{
+    "message": "桌面录像"
+  }
+}
