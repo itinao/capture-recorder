@@ -5,7 +5,7 @@
 // config
 // *** chromeの拡張機能
 var clientBase          = 'client/';
-var popupSassFiles      = clientBase + 'scss/*.scss';
+var popupSassFiles      = 'dev/' + 'scss/*.scss';
 var popupSassBuildDir   = clientBase + 'build/css/';
 var popupScriptFiles    = ['client/js/class.js', 'client/js/knockout.js', 'client/js/popup.js'];
 var popupScriptBuildDir = clientBase + 'build/js/';
@@ -35,17 +35,17 @@ gulp.task('build-client-popup-sass', function() {
   gulp.src(popupSassFiles)
   .pipe(sass())
   .pipe(concat('popup.css'))
-  .pipe(gulp.dest(popupSassBuildDir))
+  // .pipe(gulp.dest(popupSassBuildDir))
   .pipe(minifyCss())
   .pipe(rename({extname: '.min.css'}))
   .pipe(gulp.dest(popupSassBuildDir));
 });
- 
+
 // popup用jsの生成
 gulp.task('build-client-popup-script', function() {
   gulp.src(popupScriptFiles)
   .pipe(concat('popup.js'))
-  .pipe(gulp.dest(popupScriptBuildDir))
+  // .pipe(gulp.dest(popupScriptBuildDir))
   .pipe(uglify())
   .pipe(rename({extname: '.min.js'}))
   .pipe(gulp.dest(popupScriptBuildDir));
@@ -55,7 +55,7 @@ gulp.task('build-client-popup-script', function() {
 gulp.task('build-client-bg-script', function() {
   gulp.src(bgScriptFiles)
   .pipe(concat('background.js'))
-  .pipe(gulp.dest(bgScriptBuildDir))
+  // .pipe(gulp.dest(bgScriptBuildDir))
   .pipe(uglify())
   .pipe(rename({extname: '.min.js'}))
   .pipe(gulp.dest(bgScriptBuildDir));
