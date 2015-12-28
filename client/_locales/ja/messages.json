@@ -7,5 +7,24 @@
   },
   "defaulttitle":{
     "message": ""
+  },
+  // UI
+  "notification_select_screen_title":{
+  	"message": "録画を開始します"
+  },
+  "notification_select_screen_text":{
+  	"message": "録画する画面を選択してください"
+  },
+  "notification_start_capture_title":{
+  	"message": "録画を開始しました"
+  },
+  "notification_start_capture_text":{
+  	"message": "10分を経過すると自動的に録画停止します"
+  },
+  "notification_stop_capture_title":{
+  	"message": "録画を停止します"
+  },
+  "notification_stop_capture_text":{
+  	"message": "停止処理を開始しました"
   }
 }

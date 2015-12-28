@@ -7,5 +7,26 @@
   },
   "defaulttitle":{
     "message": "桌面录像"
+  },
+  // UI
+  "notification_select_screen_title":{
+  	"message": "准备录制"
+  },
+  "notification_select_screen_text":{
+  	"message": "请选择录制屏幕"
+  },
+  // UI 开始
+  "notification_start_capture_title":{
+  	"message": "开始录制"
+  },
+  "notification_start_capture_text":{
+  	"message": "10分钟后自动停止录制"
+  },
+  // UI 停止
+  "notification_stop_capture_title":{
+  	"message": "录制停止"
+  },
+  "notification_stop_capture_text":{
+  	"message": "已停止录制"
   }
 }

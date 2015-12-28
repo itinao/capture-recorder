@@ -11,7 +11,7 @@ var DesktopCaptureRecorderVM = Class.extend({
   },
   supportVersion: 35,
   notifications: null,
-  
+
   init: function() {
     this.notifications = ko.observableArray();
     if (!this.bg.captureRecorder) {
@@ -27,11 +27,15 @@ var DesktopCaptureRecorderVM = Class.extend({
 
   startRec: function() {
     // 録画開始処理
-    this.bg.captureRecorder.createNotification({title: '録画を開始します', message: '録画する画面を選択してください'});
+    var selectScreenTitle = chrome.i18n.getMessage("notification_select_screen_title");
+    var selectScreenText = chrome.i18n.getMessage("notification_select_screen_text");
+    this.bg.captureRecorder.createNotification({title: selectScreenTitle, message: selectScreenText});
     this.bg.captureRecorder.startRecording(
       function() {
         this.bg.chrome.browserAction.setIcon({path: this.iconPath.stop});
-        this.bg.captureRecorder.createNotification({title: '録画を開始しました', message: '10分を経過すると自動的に録画停止します'});
+        var startCaptureTitle = chrome.i18n.getMessage("notification_select_screen_title");
+        var startCaptureText = chrome.i18n.getMessage("notification_select_screen_text");
+        this.bg.captureRecorder.createNotification({title: startCaptureTitle, message: startCaptureText});
       }.bind(this),
       this.stopRec.bind(this)
     );
@@ -40,7 +44,9 @@ var DesktopCaptureRecorderVM = Class.extend({
   stopRec: function() {
     // 録画停止処理
     this.bg.captureRecorder.isStopStatus = true;
-    this.bg.captureRecorder.createNotification({title: '録画を停止します', message: '停止処理を開始しました'});
+    var stopCaptureTitle = chrome.i18n.getMessage("notification_stop_capture_title");
+    var stopCaptureText = chrome.i18n.getMessage("notification_stop_capture_text");
+    this.bg.captureRecorder.createNotification({title: stopCaptureTitle, message: stopCaptureText});
     this.bg.captureRecorder.stopRecording(function() {
       this.bg.chrome.browserAction.setIcon({path: this.iconPath.default});
       this.bg.captureRecorder.createNotification({title: '録画を停止しました', message: '再度アイコンをタップし、録画内容を確認してください'});
