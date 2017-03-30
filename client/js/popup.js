@@ -12,7 +12,7 @@ var DesktopCaptureRecorderVM = Class.extend({
   supportVersion: 35,
   notifications: null,
 
-  init: function() {
+  init: function () {
     this.notifications = ko.observableArray();
     if (!this.bg.captureRecorder) {
       this.bg.captureRecorder = new this.bg.CaptureRecorder();
@@ -20,59 +20,80 @@ var DesktopCaptureRecorderVM = Class.extend({
     this.activate();
   },
 
-  getAppStatus: function() {
+  getAppStatus: function () {
     var appStatus = this.bg.captureRecorder && this.bg.captureRecorder.recorderStatus;
     return appStatus || this.bg.captureRecorder.recorderStatusList.ready;
   },
 
-  startRec: function() {
+  startRec: function () {
     // 録画開始処理
     var selectScreenTitle = chrome.i18n.getMessage("notification_select_screen_title");
     var selectScreenText = chrome.i18n.getMessage("notification_select_screen_text");
-    this.bg.captureRecorder.createNotification({title: selectScreenTitle, message: selectScreenText});
+    this.bg.captureRecorder.createNotification({
+      title: selectScreenTitle,
+      message: selectScreenText
+    });
     this.bg.captureRecorder.startRecording(
-      function() {
-        this.bg.chrome.browserAction.setIcon({path: this.iconPath.stop});
+      function () {
+        this.bg.chrome.browserAction.setIcon({
+          path: this.iconPath.stop
+        });
         var startCaptureTitle = chrome.i18n.getMessage("notification_select_screen_title");
         var startCaptureText = chrome.i18n.getMessage("notification_select_screen_text");
-        this.bg.captureRecorder.createNotification({title: startCaptureTitle, message: startCaptureText});
+        this.bg.captureRecorder.createNotification({
+          title: startCaptureTitle,
+          message: startCaptureText
+        });
       }.bind(this),
       this.stopRec.bind(this)
     );
   },
 
-  stopRec: function() {
+  stopRec: function () {
     // 録画停止処理
     this.bg.captureRecorder.isStopStatus = true;
     var stopCaptureTitle = chrome.i18n.getMessage("notification_stop_capture_title");
     var stopCaptureText = chrome.i18n.getMessage("notification_stop_capture_text");
-    this.bg.captureRecorder.createNotification({title: stopCaptureTitle, message: stopCaptureText});
-    this.bg.captureRecorder.stopRecording(function() {
-      this.bg.chrome.browserAction.setIcon({path: this.iconPath.default});
-      this.bg.captureRecorder.createNotification({title: '録画を停止しました', message: '再度アイコンをタップし、録画内容を確認してください'});
+    this.bg.captureRecorder.createNotification({
+      title: stopCaptureTitle,
+      message: stopCaptureText
+    });
+    this.bg.captureRecorder.stopRecording(function () {
+      this.bg.chrome.browserAction.setIcon({
+        path: this.iconPath.default
+      });
+      this.bg.captureRecorder.createNotification({
+        title: '録画を停止しました',
+        message: '再度アイコンをタップし、録画内容を確認してください'
+      });
     }.bind(this));
   },
 
-  preview: function() {
+  preview: function () {
     window.open(this.bg.captureRecorder.previewVideoUrl, "_blank", "width=960, height=640, menubar=no, status=no, scrollbars=no");
   },
 
-  trash: function() {
+  trash: function () {
     // 初期化処理
-    this.bg.chrome.browserAction.setIcon({path: this.iconPath.rec});
-    this.bg.captureRecorder.createNotification({title: '録画した動画を削除しました', message: '録画を開始できます'});
+    this.bg.chrome.browserAction.setIcon({
+      path: this.iconPath.rec
+    });
+    this.bg.captureRecorder.createNotification({
+      title: '録画した動画を削除しました',
+      message: '録画を開始できます'
+    });
     this.bg.location.reload();
     window.close();
   },
 
-  save: function() {
+  save: function () {
     var a = this.bg.document.createElement('A');
     a.download = 'desktop-capture-recorder-' + parseInt((new Date) / 1000) + '.webm';
     a.href = this.bg.captureRecorder.previewVideoUrl;
     a.click();
   },
 
-  activate: function() {
+  activate: function () {
     var appStatus = this.getAppStatus();
 
     switch (appStatus) {
@@ -82,26 +103,28 @@ var DesktopCaptureRecorderVM = Class.extend({
         window.close();
         break;
 
-      // 録画中状態
+        // 録画中状態
       case this.bg.captureRecorder.recorderStatusList.now:
         this.stopRec();
         window.close();
         break;
 
-      // 録画終了状態
+        // 録画終了状態
       case this.bg.captureRecorder.recorderStatusList.ended:
         // nop
         break;
     }
   },
 
-  createNotification: function(text) {
-    this.notifications.removeAll();// 溜まっちゃうから消しとく
-    this.notifications.push({text: text});
+  createNotification: function (text) {
+    this.notifications.removeAll(); // 溜まっちゃうから消しとく
+    this.notifications.push({
+      text: text
+    });
   },
 
-  isSupport: function() {
-    var matches = navigator.userAgent.match(/Chrome\/(...)/);// 念のため3桁とる
+  isSupport: function () {
+    var matches = navigator.userAgent.match(/Chrome\/(...)/); // 念のため3桁とる
     if (!matches) {
       return false;
     }
@@ -110,7 +133,7 @@ var DesktopCaptureRecorderVM = Class.extend({
   }
 });
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   desktopCaptureRecorderInstance = new DesktopCaptureRecorderVM;
   ko.applyBindings(desktopCaptureRecorderInstance);
 }, false);

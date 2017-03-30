@@ -12,24 +12,26 @@ var CaptureRecorder = Class.extend({
   },
   recorderStatus: null,
   startTime: null,
-  recTimeLimit: 600,// ここで指定してある秒数で強制的に録画をとめるよ
+  recTimeLimit: 600, // ここで指定してある秒数で強制的に録画をとめるよ
   isStopStatus: false,
 
-  init: function(option) {
+  init: function (option) {
     this.recorderStatus = this.recorderStatusList.ready;
   },
 
   // キャプチャの共有を開始する
-  startCapture: function(callback, endCallback) {
+  startCapture: function (callback, endCallback) {
     chrome.desktopCapture.chooseDesktopMedia(
-      ["screen", "window"] , //ウィンドウとデスクトップどちらも
-      function(streamId) {
+      ["screen", "window"], //ウィンドウとデスクトップどちらも
+      function (streamId) {
         if (!streamId) {
           // error
           return;
         }
-        navigator.webkitGetUserMedia(
-          {
+        // https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/getUserMedia
+        (navigator.mediaDevices
+          ? navigator.mediaDevices.getUserMedia
+          : navigator.webkitGetUserMedia)({
             audio: false,
             video: {
               mandatory: {
@@ -42,19 +44,19 @@ var CaptureRecorder = Class.extend({
               }
             }
           },
-          function(stream) {
+          function (stream) {
             this.stream = stream;
 
-            this.getVideoSize(stream, function(videoWidth, videoHeight) {
+            this.getVideoSize(stream, function (videoWidth, videoHeight) {
               this.recordRtc = RecordRTC(stream, {
                 type: 'video',
                 video: {
-                   width: videoWidth,
-                   height: videoHeight
+                  width: videoWidth,
+                  height: videoHeight
                 },
                 canvas: {
-                   width: videoWidth,
-                   height: videoHeight
+                  width: videoWidth,
+                  height: videoHeight
                 }
               });
               this.startTimer(endCallback);
@@ -62,7 +64,7 @@ var CaptureRecorder = Class.extend({
             }.bind(this));
 
           }.bind(this),
-          function(error) {
+          function (error) {
             console.log(error);
           }
         );
@@ -71,10 +73,10 @@ var CaptureRecorder = Class.extend({
   },
 
   // get video size
-  getVideoSize: function(stream, callback) {
+  getVideoSize: function (stream, callback) {
     var video = document.createElement("VIDEO");
     video.src = window.URL.createObjectURL(stream);
-    video.addEventListener('canplay', function() {
+    video.addEventListener('canplay', function () {
       var videoWidth = video.videoWidth;
       var videoHeight = video.videoHeight;
       callback && callback(videoWidth, videoHeight);
@@ -82,13 +84,13 @@ var CaptureRecorder = Class.extend({
   },
 
   // start timer
-  startTimer: function(callback) {
-    this.startTime = new Date / 1000;// スタート時間
+  startTimer: function (callback) {
+    this.startTime = new Date / 1000; // スタート時間
     setTimeout(this.checkTimer.bind(this, callback), 1000);
   },
 
   // check timer
-  checkTimer: function(callback) {
+  checkTimer: function (callback) {
     if (this.isStopStatus) {
       return;
     }
@@ -103,32 +105,32 @@ var CaptureRecorder = Class.extend({
   },
 
   // Desctop通知
-  createNotification: function(option, callback) {
+  createNotification: function (option, callback) {
     chrome.notifications.create('', {
         title: option.title,
         message: option.message,
         type: 'basic',
         iconUrl: 'img/icon.png'
       },
-      function(id){
+      function (id) {
         callback && callback();
       }
     );
   },
 
   // 録画スタート
-  startRecording: function(callback, endCallback) {
-    this.startCapture(function() {
-        this.recordRtc.startRecording();
-        this.recorderStatus = this.recorderStatusList.now;
-        callback && callback();
+  startRecording: function (callback, endCallback) {
+    this.startCapture(function () {
+      this.recordRtc.startRecording();
+      this.recorderStatus = this.recorderStatusList.now;
+      callback && callback();
     }.bind(this), endCallback);
   },
 
   // 録画ストップ
-  stopRecording: function(callback) {
-    this.recordRtc.stopRecording(function(videoUrl) {
-      this.stream.stop();
+  stopRecording: function (callback) {
+    this.recordRtc.stopRecording(function (videoUrl) {
+      // this.stream.stop();
       this.recorderStatus = this.recorderStatusList.ended;
       this.previewVideoUrl = videoUrl;
       callback && callback();
