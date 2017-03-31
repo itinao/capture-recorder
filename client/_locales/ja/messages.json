@@ -26,5 +26,21 @@
   },
   "notification_stop_capture_text":{
   	"message": "停止処理を開始しました"
+  },
+  "notification_stop_capture_title2": {
+    "message": "録画を停止しました"
+  },
+  "notification_stop_capture_text2": {
+    "message": "再度アイコンをタップし、録画内容を確認してください"
+  },
+  "notification_trash_title": {
+    "message": "録画した動画を削除しました"
+  },
+  "notification_trash_text": {
+    "message": "録画を開始できます"
+  },
+  // popup page
+  "popup_desc": {
+    "message": "録画が完了しました。<br>再度録画をしたい場合は、<br>TRASHしてください。"
   }
 }

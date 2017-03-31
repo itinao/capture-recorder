@@ -62,9 +62,11 @@ var DesktopCaptureRecorderVM = Class.extend({
       this.bg.chrome.browserAction.setIcon({
         path: this.iconPath.default
       });
+      var stopCaptureTitle2 = chrome.i18n.getMessage("notification_stop_capture_title2");
+      var stopCaptureText2 = chrome.i18n.getMessage("notification_stop_capture_text2");
       this.bg.captureRecorder.createNotification({
-        title: '録画を停止しました',
-        message: '再度アイコンをタップし、録画内容を確認してください'
+        title: stopCaptureTitle2,
+        message: stopCaptureText2
       });
     }.bind(this));
   },
@@ -78,9 +80,12 @@ var DesktopCaptureRecorderVM = Class.extend({
     this.bg.chrome.browserAction.setIcon({
       path: this.iconPath.rec
     });
+    var trashTitle = chrome.i18n.getMessage("notification_trash_title");
+    var trashText = chrome.i18n.getMessage("notification_trash_text");
+
     this.bg.captureRecorder.createNotification({
-      title: '録画した動画を削除しました',
-      message: '録画を開始できます'
+      title: trashTitle,
+      message: trashText
     });
     this.bg.location.reload();
     window.close();

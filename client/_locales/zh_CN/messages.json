@@ -24,9 +24,26 @@
   },
   // UI 停止
   "notification_stop_capture_title":{
-  	"message": "录制停止"
+  	"message": "停止录制"
   },
   "notification_stop_capture_text":{
   	"message": "已停止录制"
+  },
+  "notification_stop_capture_title2": {
+    "message": "录制停止"
+  },
+  "notification_stop_capture_text2": {
+    "message": "再次点击图标，以查看录制结果"
+  },
+  // trash
+  "notification_trash_title": {
+    "message": "已删除"
+  },
+  "notification_trash_text": {
+    "message": "等待录制"
+  },
+  // popup page
+  "popup_desc": {
+    "message": "录制完成。<br>可继续录制<br>或删除"
   }
 }

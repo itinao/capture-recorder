@@ -22,5 +22,5 @@
     "48": "img/icon48.png",
     "128": "img/icon.png"
   },
-  "homepage_url": "http://screen-share.itinao.asia/"
+  "minimum_chrome_version": "35.0.0"
 }

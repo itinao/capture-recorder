@@ -28,46 +28,51 @@ var CaptureRecorder = Class.extend({
           // error
           return;
         }
-        // https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/getUserMedia
-        (navigator.mediaDevices
-          ? navigator.mediaDevices.getUserMedia
-          : navigator.webkitGetUserMedia)({
-            audio: false,
-            video: {
-              mandatory: {
-                chromeMediaSource: 'desktop',
-                chromeMediaSourceId: streamId,
-                minWidth: 320,
-                minHeight: 240,
-                maxWidth: 1280,
-                maxHeight: 960
-              }
+        var constraints = {
+          audio: false,
+          video: {
+            mandatory: {
+              chromeMediaSource: 'desktop',
+              chromeMediaSourceId: streamId,
+              minWidth: 320,
+              minHeight: 240,
+              maxWidth: 1280,
+              maxHeight: 960
             }
-          },
-          function (stream) {
-            this.stream = stream;
-
-            this.getVideoSize(stream, function (videoWidth, videoHeight) {
-              this.recordRtc = RecordRTC(stream, {
-                type: 'video',
-                video: {
-                  width: videoWidth,
-                  height: videoHeight
-                },
-                canvas: {
-                  width: videoWidth,
-                  height: videoHeight
-                }
-              });
-              this.startTimer(endCallback);
-              callback && callback();
-            }.bind(this));
-
-          }.bind(this),
-          function (error) {
-            console.log(error);
           }
-        );
+        };
+        var cb = function (stream) {
+          this.stream = stream;
+
+          this.getVideoSize(stream, function (videoWidth, videoHeight) {
+            this.recordRtc = RecordRTC(stream, {
+              type: 'video',
+              video: {
+                width: videoWidth,
+                height: videoHeight
+              },
+              canvas: {
+                width: videoWidth,
+                height: videoHeight
+              }
+            });
+            this.startTimer(endCallback);
+            callback && callback();
+          }.bind(this));
+
+        }.bind(this);
+        // https://developer.mozilla.org/zh-CN/docs/Web/API/MediaDevices/getUserMedia
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+          navigator.mediaDevices.getUserMedia(constraints).then(function (stream) {
+            cb(stream);
+          });
+        } else {
+          navigator.webkitGetUserMedia(constraints, cb,
+            function (error) {
+              console.log(error);
+            }
+          );
+        }
       }.bind(this)
     );
   },
