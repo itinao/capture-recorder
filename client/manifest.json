@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "version": "1.0.1",
+  "version": "2.0.0",
   "default_locale": "en",
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
@@ -9,7 +9,7 @@
   "browser_action": {
     "default_title": "__MSG_defaulttitle__",
     "default_popup": "build/html/popup.html",
-    "default_icon": "img/icon_rec.png"
+    "default_icon": "img/icon.png"
   },
   "background": {
     "scripts":["build/js/background.min.js"]

@@ -7,9 +7,9 @@
 var clientBase          = 'client/';
 var popupSassFiles      = 'dev/' + 'scss/*.scss';
 var popupSassBuildDir   = clientBase + 'build/css/';
-var popupScriptFiles    = ['client/js/class.js', 'client/js/knockout.js', 'client/js/popup.js'];
+var popupScriptFiles    = ['client/lib/class.js', 'client/lib/knockout.js', 'client/js/popup.js'];
 var popupScriptBuildDir = clientBase + 'build/js/';
-var bgScriptFiles       = ['client/js/class.js', 'client/js/RecordRTC.js', 'client/js/gif-recorder.js', 'client/js/capture_recorder.js', 'client/js/background.js'];
+var bgScriptFiles       = ['client/lib/class.js', 'client/lib/RecordRTC.min.js', 'client/lib/gif-recorder.js', 'client/js/capture_recorder.js', 'client/js/background.js'];
 var bgScriptBuildDir    = clientBase + 'build/js/';
 var clientHtmlFiles     = clientBase + 'html/*.html';
 var clientHtmlBuildDir  = clientBase + 'build/html/';

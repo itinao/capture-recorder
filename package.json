@@ -4,6 +4,7 @@
   "description": "Desktop Capture Recorder",
   "main": "index.js",
   "scripts": {
+    "dev": "npm run build && gulp build-client-watch",
     "build": "gulp build-client"
   },
   "repository": {
