@@ -42,5 +42,8 @@
   // popup page
   "popup_desc": {
     "message": "録画が完了しました。<br>再度録画をしたい場合は、<br>TRASHしてください。"
+  },
+  "support_tips":{
+    "message": "Google Chrome ver.35以上がサポート対象です"
   }
 }

@@ -3,7 +3,7 @@
     "message": "桌面录像"
   },
   "appDesc": {
-    "message": "Chrome Extension,能捕获桌面，并保存。"
+    "message": "Chrome Extension,能录制桌面，并保存为 webm 格式。"
   },
   "defaulttitle":{
     "message": "桌面录像"
@@ -44,6 +44,9 @@
   },
   // popup page
   "popup_desc": {
-    "message": "录制完成。<br>可继续录制<br>或删除"
+    "message": "录制完成。<br>删除后可继续录制。"
+  },
+  "support_tips": {
+    "message": "仅支持 Google Chrome v35 及以上版本"
   }
 }
