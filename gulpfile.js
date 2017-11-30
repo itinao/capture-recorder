@@ -18,7 +18,7 @@ var clientHtmlBuildDir  = clientBase + 'build/html/';
 // requires
 var gulp = require('gulp');
 var sass = require('gulp-sass');
-var minifyCss = require('gulp-minify-css');
+var cleanCSS = require('gulp-clean-css');
 var minifyHtml = require('gulp-minify-html');
 var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
@@ -36,7 +36,7 @@ gulp.task('build-client-popup-sass', function() {
   .pipe(sass())
   .pipe(concat('popup.css'))
   // .pipe(gulp.dest(popupSassBuildDir))
-  .pipe(minifyCss())
+  .pipe(cleanCSS())
   .pipe(rename({extname: '.min.css'}))
   .pipe(gulp.dest(popupSassBuildDir));
 });
