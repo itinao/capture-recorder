@@ -14,7 +14,6 @@ var bgScriptBuildDir    = clientBase + 'build/js/';
 var clientHtmlFiles     = clientBase + 'html/*.html';
 var clientHtmlBuildDir  = clientBase + 'build/html/';
 
-
 // requires
 var gulp = require('gulp');
 var sass = require('gulp-sass');
@@ -23,16 +22,13 @@ var minifyHtml = require('gulp-minify-html');
 var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
-var minifyInline = require('gulp-minify-inline');
-var runSequence = require('run-sequence');
-
 
 /**
  * Google Chrome App タスク
  */
 // popup用cssの生成
 gulp.task('build-client-popup-sass', function() {
-  gulp.src(popupSassFiles)
+  return gulp.src(popupSassFiles)
   .pipe(sass())
   .pipe(concat('popup.css'))
   // .pipe(gulp.dest(popupSassBuildDir))
@@ -43,7 +39,7 @@ gulp.task('build-client-popup-sass', function() {
 
 // popup用jsの生成
 gulp.task('build-client-popup-script', function() {
-  gulp.src(popupScriptFiles)
+  return gulp.src(popupScriptFiles)
   .pipe(concat('popup.js'))
   // .pipe(gulp.dest(popupScriptBuildDir))
   .pipe(uglify())
@@ -53,7 +49,7 @@ gulp.task('build-client-popup-script', function() {
 
 // background用jsの生成
 gulp.task('build-client-bg-script', function() {
-  gulp.src(bgScriptFiles)
+  return gulp.src(bgScriptFiles)
   .pipe(concat('background.js'))
   // .pipe(gulp.dest(bgScriptBuildDir))
   .pipe(uglify())
@@ -65,7 +61,7 @@ gulp.task('build-client-bg-script', function() {
 gulp.task('build-client-html', function () {
   // knockout.jsを使ってるので comments: trueは必須
   var minifyHtmlOption = {comments: true, quotes: true, spare: false, empty: true};
-  gulp.src(clientHtmlFiles)
+  return gulp.src(clientHtmlFiles)
   .pipe(minifyHtml(minifyHtmlOption))
   .pipe(gulp.dest(clientHtmlBuildDir));
 });
@@ -88,5 +84,5 @@ gulp.task('build-client-watch', function() {
 });
 
 // 全て実行
-gulp.task('build-client', ['build-client-popup-sass', 'build-client-popup-script', 'build-client-bg-script', 'build-client-html']);
+gulp.task('build-client', gulp.parallel('build-client-popup-sass', 'build-client-popup-script', 'build-client-bg-script', 'build-client-html'));
 
