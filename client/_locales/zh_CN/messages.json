@@ -1,0 +1,52 @@
+{
+  "appName": {
+    "message": "桌面录像"
+  },
+  "appDesc": {
+    "message": "Chrome Extension,能录制桌面，并保存为 webm 格式。"
+  },
+  "defaulttitle":{
+    "message": "桌面录像"
+  },
+  // UI
+  "notification_select_screen_title":{
+  	"message": "准备录制"
+  },
+  "notification_select_screen_text":{
+  	"message": "请选择录制屏幕"
+  },
+  // UI 开始
+  "notification_start_capture_title":{
+  	"message": "开始录制"
+  },
+  "notification_start_capture_text":{
+  	"message": "10分钟后自动停止录制"
+  },
+  // UI 停止
+  "notification_stop_capture_title":{
+  	"message": "停止录制"
+  },
+  "notification_stop_capture_text":{
+  	"message": "已停止录制"
+  },
+  "notification_stop_capture_title2": {
+    "message": "录制停止"
+  },
+  "notification_stop_capture_text2": {
+    "message": "再次点击图标，以查看录制结果"
+  },
+  // trash
+  "notification_trash_title": {
+    "message": "已删除"
+  },
+  "notification_trash_text": {
+    "message": "等待录制"
+  },
+  // popup page
+  "popup_desc": {
+    "message": "录制完成。<br>删除后可继续录制。"
+  },
+  "support_tips": {
+    "message": "仅支持 Google Chrome v35 及以上版本"
+  }
+}

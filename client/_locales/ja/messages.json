@@ -1,0 +1,49 @@
+{
+  "appName": {
+    "message": "Desktop Capture Recorder"
+  },
+  "appDesc": {
+    "message": "Desktop Capture Recorderは、デスクトップ画面をキャプチャして動画保存まで出来るGoogle Chrome拡張機能です。"
+  },
+  "defaulttitle":{
+    "message": ""
+  },
+  // UI
+  "notification_select_screen_title":{
+  	"message": "録画を開始します"
+  },
+  "notification_select_screen_text":{
+  	"message": "録画する画面を選択してください"
+  },
+  "notification_start_capture_title":{
+  	"message": "録画を開始しました"
+  },
+  "notification_start_capture_text":{
+  	"message": "10分を経過すると自動的に録画停止します"
+  },
+  "notification_stop_capture_title":{
+  	"message": "録画を停止します"
+  },
+  "notification_stop_capture_text":{
+  	"message": "停止処理を開始しました"
+  },
+  "notification_stop_capture_title2": {
+    "message": "録画を停止しました"
+  },
+  "notification_stop_capture_text2": {
+    "message": "再度アイコンをタップし、録画内容を確認してください"
+  },
+  "notification_trash_title": {
+    "message": "録画した動画を削除しました"
+  },
+  "notification_trash_text": {
+    "message": "録画を開始できます"
+  },
+  // popup page
+  "popup_desc": {
+    "message": "録画が完了しました。<br>再度録画をしたい場合は、<br>TRASHしてください。"
+  },
+  "support_tips":{
+    "message": "Google Chrome ver.35以上がサポート対象です"
+  }
+}

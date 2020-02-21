@@ -3,8 +3,9 @@
   <head>
     <meta charset="utf-8">
     <title>Desktop Capture Recorder</title>
-    <script src="../js/popup.min.js"></script>
-    <link rel="stylesheet" href="../css/popup.min.css" type="text/css">
+    <link rel="stylesheet" href="../css/_base.css" type="text/css">
+    <link rel="stylesheet" href="../css/_fontawesome.css" type="text/css">
+    <link rel="stylesheet" href="../css/popup.css" type="text/css">
   </head>
   <body>
 
@@ -16,12 +17,13 @@
         </div>
         <div class="fadein">Desktop Capture Recorder</div>
       </div>
-    
+
       <div class="app-content">
 
         <!-- ko if: isSupport() -->
           <div class="description">
-            録画が完了しました。<br>再度録画をしたい場合は、<br>TRASHしてください。
+             Record completed.
+            <br>Save it or trash to Continue next record.
           </div>
 
           <ul>
@@ -32,7 +34,7 @@
         <!-- /ko -->
 
         <!-- ko ifnot: isSupport() -->
-          <div class="attention">※ Google Chrom ver.35以上がサポート対象です</div>
+          <div class="attention">※ Just support Google Chrome v35+</div>
         <!-- /ko -->
 
       </div>
@@ -43,5 +45,6 @@
       <div class="clip-notification" data-bind="text: $data.text"></div>
     <!-- /ko -->
 
+    <script src="../js/popup.min.js"></script>
   </body>
 </html>

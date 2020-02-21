@@ -1,0 +1,36 @@
+{
+  "appName": {
+    "message": "Desktop Capture Recorder"
+  },
+  "appDesc": {
+    "message": "Capture desktop and Save it as .webm filetype."
+  },
+  "defaulttitle":{
+    "message": "Desktop Capture Recorder"
+  },
+  // UI
+  "notification_select_screen_title":{
+  	"message": "Ready to record"
+  },
+  "notification_select_screen_text":{
+  	"message": "Select a screen"
+  },
+  // UI 开始
+  "notification_start_capture_title":{
+  	"message": "Start recording"
+  },
+  "notification_start_capture_text":{
+  	"message": "Stop after 10 minutes"
+  },
+  // UI 停止
+  "notification_stop_capture_title":{
+  	"message": "Stop"
+  },
+  "notification_stop_capture_text":{
+  	"message": "Stopped"
+  },
+  // popup page
+  "popup_desc": {
+    "message": "Complete recording。<br>You can start another record<br>or trash this one"
+  }
+}
